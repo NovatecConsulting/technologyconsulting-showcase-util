@@ -2,6 +2,20 @@ version: "3.5"
 
 services:
 
+  database:
+    image: postgres:11
+    hostname: database
+    container_name: database
+    ports:
+      - 54320:5432
+    environment:
+      POSTGRES_USER: showcase
+      POSTGRES_PASSWORD: showcase
+    volumes:
+      - ./postgres-init-user-db.sh:/docker-entrypoint-initdb.d/postgres-init-user-db.sh
+    networks:
+      - novatectcshowcase
+
   manufacturedomain:
     image: novatec/technologyconsulting-showcase-manufacturedomain:latestlocal
     hostname: manufacturedomain
@@ -12,6 +26,12 @@ services:
       SUPPLIER_PURCHASE_URL: http://supplierdomain:9080/supplierdomain/supplier/purchase/
       SUPPLIER_USER: order
       SUPPLIER_PASSWORD: pwd
+      DB_HOST: database
+      DB_USER: manufacture_user
+      DB_PASSWORD: manufacture_pass
+      DB_PORT: 5432
+      DB_SCHEMA: public
+      DB_NAME: manufacture_db
     ports:
       - 9080:9080
     networks:
@@ -27,6 +47,12 @@ services:
       MANUFACTURE_WORKORDER_URL: http://manufacturedomain:9080/manufacturedomain/workorder/
       MANUFACTURE_USER: admin
       MANUFACTURE_PASSWORD: adminpwd
+      DB_HOST: database
+      DB_USER: order_user
+      DB_PASSWORD: order_pass
+      DB_PORT: 5432
+      DB_SCHEMA: public
+      DB_NAME: order_db
     ports:
       - 9081:9080
     networks:
@@ -42,8 +68,29 @@ services:
       MANUFACTURE_DELIVER_URL: http://manufacturedomain:9080/manufacturedomain/component/deliver/
       MANUFACTURE_USER: admin
       MANUFACTURE_PASSWORD: adminpwd
+      DB_HOST: database
+      DB_USER: supplier_user
+      DB_PASSWORD: supplier_pass
+      DB_PORT: 5432
+      DB_SCHEMA: public
+      DB_NAME: supplier_db
     ports:
       - 9082:9080
+    networks:
+      - novatectcshowcase
+
+  driver:
+    image: novatec/technologyconsulting-showcase-driver:latestlocal
+    hostname: driver
+    container_name: driver
+    environment:
+      GATLING_BASEURL_SUPPLIERDOMAIN: "http://supplierdomain:9080"
+      GATLING_BASEURL_ORDERDOMAIN: "http://orderdomain:9080"
+      GATLING_BASEURL_MANUFACTUREDOMAIN: "http://manufacturedomain:9080" 
+      GATLING_NR_USERS: 1
+      GATLING_MAX_DURATION: 1
+      GATLING_RAMPUP_TIME: 10
+      GATLING_NR_USERS_AT_ONCE: 1   
     networks:
       - novatectcshowcase
 
