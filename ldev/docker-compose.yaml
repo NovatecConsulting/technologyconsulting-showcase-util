@@ -24,7 +24,7 @@ services:
       HTTP_PORT: 9080
       HTTPS_PORT: 9443
       SUPPLIER_PURCHASE_URL: http://supplierdomain:9080/supplierdomain/supplier/purchase/
-      SUPPLIER_USER: orderer
+      SUPPLIER_USER: order
       SUPPLIER_PASSWORD: pwd
       DB_HOST: database
       DB_USER: manufacture_user
@@ -45,8 +45,8 @@ services:
       HTTP_PORT: 9080
       HTTPS_PORT: 9443
       MANUFACTURE_WORKORDER_URL: http://manufacturedomain:9080/manufacturedomain/workorder/
-      MANUFACTURE_USER: testuser
-      MANUFACTURE_PASSWORD: pwd
+      MANUFACTURE_USER: admin
+      MANUFACTURE_PASSWORD: adminpwd
       DB_HOST: database
       DB_USER: order_user
       DB_PASSWORD: order_pass
@@ -66,8 +66,8 @@ services:
       HTTP_PORT: 9080
       HTTPS_PORT: 9443
       MANUFACTURE_DELIVER_URL: http://manufacturedomain:9080/manufacturedomain/component/deliver/
-      MANUFACTURE_USER: testuser
-      MANUFACTURE_PASSWORD: pwd
+      MANUFACTURE_USER: admin
+      MANUFACTURE_PASSWORD: adminpwd
       DB_HOST: database
       DB_USER: supplier_user
       DB_PASSWORD: supplier_pass
@@ -90,7 +90,7 @@ services:
       GATLING_NR_USERS: 1
       GATLING_MAX_DURATION: 1
       GATLING_RAMPUP_TIME: 10
-      GATLING_NR_USERS_AT_ONCE: 1 
+      GATLING_NR_USERS_AT_ONCE: 1
     networks:
       - novatectcshowcase
 
