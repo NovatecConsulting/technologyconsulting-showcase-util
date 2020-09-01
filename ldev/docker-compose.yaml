@@ -97,4 +97,3 @@ services:
 networks:
   novatectcshowcase:
       driver: bridge
-      name: novatectcshowcase
